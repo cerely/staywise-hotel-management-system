@@ -79,8 +79,7 @@ staywise-dashboard/
 ## 👩‍💻 Author
 
 **Cerulean**  
-Frontend Developer & UI/UX Designer ✨  
-📫 *(Add portfolio or social links if you’d like)*  
+Frontend Developer & UI/UX Designer ✨    
 
 ---
 
