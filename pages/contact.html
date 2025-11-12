@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Staywise</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    :root {
+      --bg: #f8f5f0;
+      --accent: #d4b899;
+      --accent-dark: #8b6b52;
+      --text: #3e3e3e;
+      --card: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --bg-color: #F8F5F0;
+      --text-color: #3E3E3E;
+      --accent-color: #D4B899;
+      --accent-vlight: #CDC4B5;
+      --accent-light: #E8D5BE;
+      --border-color: #A8A6A1;
+      --card-bg: #FFFFFF;
+      --shadow-color: rgba(0, 0, 0, 0.08);
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .contact-hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                  url("/images/contact-bg.png") center/cover no-repeat;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .contact-form {
+      background: rgba(255, 255, 255, 0.399);
+      color: #333;
+      padding: 3rem 4rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .contact-form h2 {
+        font-size: 2rem;
+      font-family: 'Glyce';
+      color: var(--text-color);
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      margin-top: 0.3rem;
+      font-family: 'Poppins';
+    }
+
+    button {
+      margin-top: 1.5rem;
+      background: var(--accent-dark);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background: var(--accent-color);
+    }
+  </style>
+</head>
+<body>
+  <section class="contact-hero">
+    <form class="contact-form">
+      <h2>Contact Us</h2>
+      <p>We’d love to hear from you. Reach out with questions or special requests.</p>
+
+      <label>Name</label>
+      <input type="text" required>
+
+      <label>Email</label>
+      <input type="email" required>
+
+      <label>Message</label>
+      <textarea rows="4" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Staywise</title>
+  <style>
+    /* (your original CSS unchanged) */
+    :root {
+      --bg: #f8f5f0;
+      --accent: #d4b899;
+      --accent-dark: #8b6b52;
+      --text: #3e3e3e;
+      --card: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --bg-color: #F8F5F0;
+      --text-color: #3E3E3E;
+      --accent-color: #D4B899;
+      --accent-vlight: #CDC4B5;
+      --accent-light: #E8D5BE;
+      --border-color: #A8A6A1;
+      --card-bg: #FFFFFF;
+      --shadow-color: rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: var(--bg);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      background-image: url("images/lobby2.png");
+      background-position: center;
+      background-blend-mode: overlay;
+      width: 240px;
+      background-color: #fff7ed43;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.05);
+    }
+
+    .sidebar h2 {
+      font-family: "Glyce", serif;
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+      color: var(--bg);
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #2b2828;
+      font-weight: 500;
+      padding: 0.8rem 1rem;
+      transition: 0.25s;
+      display: block;
+    }
+
+    .sidebar a.active,
+    .sidebar a:hover {
+      background-color: var(--accent-dark);
+      color: #fff;
+    }
+
+    .main { flex: 1; padding: 2rem 3rem; overflow-y: auto; transition: 0.3s; }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    header h1 { font-family: "Glyce", serif; color: var(--accent-dark); font-size: 1.8rem; }
+    h2 { font-family: Glyce; padding: 0rem 0rem 1rem 0rem; }
+    .logout-btn { background: var(--accent-dark); color: white; border: none; padding: 0.6rem 1.2rem; cursor: pointer; transition: 0.3s ease; font-weight: 600; }
+    .logout-btn:hover { background: var(--accent); color: var(--text); }
+    .cards { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .card { background: var(--card); box-shadow: 0 4px 8px var(--shadow); flex: 1 1 250px; padding: 1.5rem; text-align: center; transition: transform 0.2s ease; }
+    .card:hover { transform: translateY(-4px); }
+    .card h3 { font-family: "Glyce", serif; margin-bottom: 0.5rem; color: var(--accent-dark); }
+    table { width: 100%; border-collapse: collapse; background: var(--card); margin-bottom: 2rem; overflow: hidden; box-shadow: 0 3px 6px var(--shadow); }
+    th, td { padding: 1rem; border-bottom: 1px solid #eee; text-align: left; font-size: 0.95rem; }
+    th { background-color: var(--accent-vlight); color: white; }
+    .actions { display: flex; gap: 1rem; margin-bottom: 2rem; }
+    .action-btn { background: var(--accent-dark); color: #fff; border: none; padding: 0.8rem 1.5rem; cursor: pointer; transition: background 0.3s ease; font-weight: 500; }
+    .action-btn:hover { background: var(--accent); color: var(--text); }
+    .notifications { background: var(--card); padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 8px var(--shadow); }
+    .notifications h3 { font-family: "Glyce", serif; margin-bottom: 1rem; color: var(--accent-dark); }
+    .notifications div { border-bottom: 1px solid #eee; padding: 0.6rem 0; }
+    .section { display: none; animation: fadeIn 0.4s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); justify-content: center; align-items: center; z-index: 200; }
+    .modal-content { background: var(--card-bg); padding: 2rem; border-radius: 10px; width: 400px; box-shadow: 0 6px 18px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease; position: relative; }
+    .close-btn { position: absolute; top: 1rem; right: 1.2rem; font-size: 1.5rem; color: #666; cursor: pointer; transition: color 0.2s ease; }
+    .close-btn:hover { color: var(--accent-dark); }
+    @media (max-width: 800px) { .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <h2>staywise.</h2>
+    <a href="#" class="active" data-section="dashboard">Dashboard</a>
+    <a href="#" data-section="rooms">Rooms</a>
+    <a href="#" data-section="customers">Customers</a>
+    <a href="#" data-section="parking">Drivers / Parking</a>
+    <a href="#" data-section="bookings">Bookings</a>
+    <a href="#" data-section="notifications">Notifications</a>
+  </aside>
+
+  <main class="main">
+    <header>
+      <h1>Admin Dashboard</h1>
+      <button class="logout-btn">Logout</button>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section active">
+      <div class="cards">
+        <div class="card"><h3>Total Rooms</h3><p>48</p></div>
+        <div class="card"><h3>Occupied</h3><p>36</p></div>
+        <div class="card"><h3>Active Drivers</h3><p>12</p></div>
+      </div>
+
+      <div class="actions">
+        <button class="action-btn" id="addRoomBtn">+ Add Room</button>
+        <button class="action-btn">📩 Send Notification</button>
+      </div>
+
+      <!-- Send Notification Modal -->
+    <div id="notificationModal" class="modal">
+      <div class="modal-content" style="border-radius: 0;">
+        <span class="close-btn">&times;</span>
+        <h2>Send Notification</h2>
+        <form id="notificationForm">
+          <label>Title</label>
+          <input type="text" placeholder="Enter notification title" required>
+
+          <label>Message</label>
+          <textarea rows="4" placeholder="Type your message here..." required
+            style="width:100%;padding:0.6rem;border:1px solid #ccc;margin-top:0.3rem;
+                  font-size:0.9rem;resize:none;"></textarea>
+
+          <label>Target Audience</label>
+          <select required>
+            <option value="">Select Audience</option>
+            <option>All Customers</option>
+            <option>Active Bookings</option>
+            <option>Drivers</option>
+            <option>Staff</option>
+          </select>
+
+          <button type="submit" class="action-btn" style="margin-top:1rem;">Send</button>
+        </form>
+      </div>
+    </div>
+
+
+      <h2>Recent Bookings</h2>
+      <table>
+        <tr><th>ID</th><th>Customer</th><th>Room</th><th>Check-In</th><th>Status</th><th>Action</th></tr>
+        <tr><td>#1209</td><td>John M.</td><td>Executive</td><td>2025-11-10</td><td>Checked-In</td><td>-</td></tr>
+        <tr><td>#1210</td><td>Sara K.</td><td>Deluxe</td><td>2025-11-12</td><td>Booked</td>
+          <td>
+            <button class="action-btn small cancel">Cancel</button>
+            <button class="action-btn small noshow">No Show</button>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="rooms" class="section">
+      <h2>Room Availability</h2>
+      <table>
+        <tr><th>Room No</th><th>Type</th><th>Status</th></tr>
+        <tr><td>101</td><td>Deluxe</td><td>Occupied</td></tr>
+        <tr><td>102</td><td>Suite</td><td>Available</td></tr>
+      </table>
+    </section>
+
+    <!-- Customers Section -->
+    <section id="customers" class="section">
+      <h2>Customer List</h2>
+      <table id="customerTable">
+        <tr><th>Name</th><th>Email</th><th>Phone</th><th>Bookings</th><th>ID Proof</th></tr>
+        <tr>
+          <td>Sara K.</td><td>sara@example.com</td><td>+91 9876543210</td><td>3</td>
+          <td><button class="action-btn small view-id" data-id="id1">View ID</button></td>
+        </tr>
+        <tr>
+          <td>John M.</td><td>john@example.com</td><td>+91 9123456789</td><td>5</td>
+          <td><button class="action-btn small view-id" data-id="id2">View ID</button></td>
+        </tr>
+      </table>
+
+      <div class="actions">
+        <button class="action-btn" id="addCustomerBtn">+ Add Customer</button>
+        <button class="action-btn" id="downloadCustomersBtn">⬇ Download List</button>
+      </div>
+    </section>
+
+    <!-- Parking Section -->
+    <section id="parking" class="section">
+      <h2>Driver / Parking</h2>
+      <table>
+        <tr><th>Token</th><th>Driver Name</th><th>Car No</th><th>Slot</th><th>Status</th><th>ID Proof</th></tr>
+        <tr>
+          <td>P-204</td><td>Ravi S.</td><td>MH 04 AA 1234</td><td>A4</td><td>Active</td>
+          <td><button class="action-btn small view-id" data-id="id3">View ID</button></td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- Bookings Section -->
+    <section id="bookings" class="section">
+      <h2>All Bookings</h2>
+      <table>
+        <tr><th>Booking ID</th><th>Customer</th><th>Room</th><th>Check-In</th><th>Status</th><th>Action</th></tr>
+        <tr><td>#1201</td><td>Priya</td><td>Suite</td><td>2025-11-15</td><td>Upcoming</td>
+          <td><button class="action-btn small cancel">Cancel</button><button class="action-btn small noshow">No Show</button></td></tr>
+        <tr><td>#1202</td><td>Rahul</td><td>Deluxe</td><td>2025-11-14</td><td>Cancelled</td><td>-</td></tr>
+      </table>
+    </section>
+
+    <!-- Notifications Section -->
+    <section id="notifications" class="section">
+      <div class="notifications">
+        <h3>Notifications</h3>
+        <div>New booking confirmed by customer #1210</div>
+        <div>Room 302 marked as under maintenance</div>
+        <div>Monthly revenue report generated.</div>
+      </div>
+    </section>
+
+    <!-- Add Room Modal -->
+    <div id="addRoomModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Add New Room</h2>
+        <form id="addRoomForm">
+          <label>Room Number</label>
+          <input type="text" required>
+          <label>Room Type</label>
+          <select required>
+            <option value="">Select Type</option>
+            <option>Deluxe</option>
+            <option>Executive</option>
+            <option>Suite</option>
+            <option>Family Room</option>
+          </select>
+          <label>Price / Night (₹)</label>
+          <input type="number" min="0" required>
+          <label>Status</label>
+          <select required>
+            <option>Available</option>
+            <option>Occupied</option>
+            <option>Maintenance</option>
+          </select>
+          <button type="submit" class="action-btn">Add Room</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Customer Modal -->
+    <div id="addCustomerModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Add New Customer</h2>
+        <form id="addCustomerForm">
+          <label>Full Name</label>
+          <input type="text" required>
+          <label>Email</label>
+          <input type="email" required>
+          <label>Phone</label>
+          <input type="tel" required>
+          <label>Address</label>
+          <input type="text">
+          <label>ID Type</label>
+          <select required>
+            <option value="">Select</option>
+            <option>Aadhaar</option>
+            <option>Passport</option>
+            <option>Driver’s License</option>
+          </select>
+          <label>Upload ID Proof</label>
+          <input type="file" accept="image/*,application/pdf">
+          <button type="submit" class="action-btn">Add Customer</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ID Proof Modal -->
+    <div id="idModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>ID Proof</h2>
+        <img id="idPreview" src="" alt="ID Proof" style="width:100%;border-radius:6px;">
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Sidebar switching
+    const links = document.querySelectorAll(".sidebar a");
+    const sections = document.querySelectorAll(".section");
+    links.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        links.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+        const target = link.getAttribute("data-section");
+        sections.forEach(sec => sec.classList.toggle("active", sec.id === target));
+      });
+    });
+
+    // Modals
+    const addRoomModal = document.getElementById('addRoomModal');
+    const addCustomerModal = document.getElementById('addCustomerModal');
+    const idModal = document.getElementById('idModal');
+    const addRoomBtn = document.getElementById('addRoomBtn');
+    const addCustomerBtn = document.getElementById('addCustomerBtn');
+    const closeBtns = document.querySelectorAll('.close-btn');
+    // Send Notification Modal
+    const notificationModal = document.getElementById('notificationModal');
+    const sendNotificationBtn = document.querySelector('.actions .action-btn:nth-child(2)'); // second button
+    const notificationForm = document.getElementById('notificationForm');
+
+    sendNotificationBtn.addEventListener('click', e => {
+      e.preventDefault();
+      notificationModal.style.display = 'flex';
+    });
+
+    notificationForm.addEventListener('submit', e => {
+      e.preventDefault();
+      alert('📨 Notification sent successfully!');
+      notificationModal.style.display = 'none';
+    });
+
+    // close modal support
+    closeBtns.forEach(btn => btn.addEventListener('click', () => {
+      notificationModal.style.display = 'none';
+    }));
+
+    window.addEventListener('click', e => {
+      if (e.target === notificationModal) notificationModal.style.display = 'none';
+    });
+
+
+    addRoomBtn.onclick = () => addRoomModal.style.display = 'flex';
+    addCustomerBtn.onclick = () => addCustomerModal.style.display = 'flex';
+    closeBtns.forEach(btn => btn.onclick = () => {
+      addRoomModal.style.display = addCustomerModal.style.display = idModal.style.display = 'none';
+    });
+    window.onclick = e => {
+      if ([addRoomModal, addCustomerModal, idModal].includes(e.target))
+        e.target.style.display = 'none';
+    };
+
+    document.getElementById('addRoomForm').onsubmit = e => { e.preventDefault(); alert("✅ Room added successfully!"); addRoomModal.style.display = 'none'; };
+    document.getElementById('addCustomerForm').onsubmit = e => { e.preventDefault(); alert("✅ Customer added successfully!"); addCustomerModal.style.display = 'none'; };
+
+    // ID Proof View
+    document.querySelectorAll('.view-id').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const imgMap = { id1: "images/id1.png", id2: "images/id2.png", id3: "images/id3.png" };
+        document.getElementById('idPreview').src = imgMap[btn.dataset.id] || "images/default-id.png";
+        idModal.style.display = 'flex';
+      });
+    });
+
+    // Booking actions
+    document.querySelectorAll('.cancel').forEach(btn => btn.onclick = () => alert("❌ Booking cancelled."));
+    document.querySelectorAll('.noshow').forEach(btn => btn.onclick = () => alert("⚠️ Marked as no-show."));
+
+    // CSV Download
+    document.getElementById('downloadCustomersBtn').addEventListener('click', () => {
+      let rows = [];
+      document.querySelectorAll('#customerTable tr').forEach(tr => {
+        const cells = Array.from(tr.querySelectorAll('th, td')).map(td => td.innerText);
+        rows.push(cells.join(','));
+      });
+      const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'customers_list.csv';
+      a.click();
+    });
+  </script>
+</body>
+</html>
