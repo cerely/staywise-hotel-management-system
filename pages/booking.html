@@ -329,9 +329,10 @@
 
     roomType.addEventListener("change", (e) => {
       const type = e.target.value;
-      if (type === "deluxe") bookingImage.style.backgroundImage = "url('images/IMG_6462.JPG')";
-      else if (type === "executive") bookingImage.style.backgroundImage = "url('images/IMG_6460.JPG')";
-      else if (type === "family") bookingImage.style.backgroundImage = "url('images/IMG_6453.PNG')";
+      if (type === "deluxe") bookingImage.style.backgroundImage = "url('../images/IMG_6462.JPG')";
+      else if (type === "executive") bookingImage.style.backgroundImage = "url('../images/IMG_6460.JPG')";
+      else if (type === "family") bookingImage.style.backgroundImage = "url('../images/IMG_6453.PNG')";
+
     });
 
     document.getElementById("bookingForm").addEventListener("submit", (e) => {
