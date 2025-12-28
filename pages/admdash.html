@@ -117,7 +117,7 @@
   <main class="main">
     <header>
       <h1>Admin Dashboard</h1>
-      <button class="logout-btn">Logout</button>
+      <button class="logout-btn" id="logoutBtn" >Logout</button>
     </header>
 
     <!-- Dashboard Section -->
@@ -332,6 +332,17 @@
     const sendNotificationBtn = document.querySelector('.actions .action-btn:nth-child(2)'); // second button
     const notificationForm = document.getElementById('notificationForm');
 
+    document.getElementById("logoutBtn").addEventListener("click", function () {
+    // remove login session
+    localStorage.removeItem("isAdminLoggedIn");
+
+    // go back to login page
+    window.location.href = "login.html";
+    });
+      if (localStorage.getItem("isAdminLoggedIn") !== "true") {
+    // not logged in — block access
+    window.location.href = "login.html";
+  }
     sendNotificationBtn.addEventListener('click', e => {
       e.preventDefault();
       notificationModal.style.display = 'flex';

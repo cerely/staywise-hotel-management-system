@@ -82,25 +82,93 @@
     button:hover {
       background: var(--accent-color);
     }
+
+    @media (max-width: 768px) {
+
+      /* hero should scroll naturally on small screens */
+      .contact-hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+        box-sizing: border-box;
+      }
+
+      .contact-form {
+        width: 100%;
+        max-width: 300px;
+        padding: 1.5rem 1.2rem;
+        margin: 2rem auto;
+        backdrop-filter: blur(4px);
+      }
+
+      .contact-form h2 {
+        font-size: 1.6rem;
+      }
+
+      .contact-form p {
+        font-size: 0.95rem;
+      }
+
+      input,
+      textarea {
+        font-size: 0.95rem;
+        padding: 0.2rem 0rem 1rem;
+      }
+
+      button {
+        width: 100%;
+        padding: 0.9rem;
+      }
+    }
   </style>
 </head>
 <body>
   <section class="contact-hero">
-    <form class="contact-form">
-      <h2>Contact Us</h2>
-      <p>We’d love to hear from you. Reach out with questions or special requests.</p>
+    <form
+        class="contact-form"
+        action="https://formspree.io/f/mbdjaewa"
+        method="POST"
+        accept="application/json"
+      >
+        <h2>Contact Us</h2>
+        <p>We’d love to hear from you. Reach out with questions or special requests.</p>
 
-      <label>Name</label>
-      <input type="text" required>
+        <label>Name</label>
+        <input type="text" name="name" required>
 
-      <label>Email</label>
-      <input type="email" required>
+        <label>Email</label>
+        <input type="email" name="email" required>
 
-      <label>Message</label>
-      <textarea rows="4" required></textarea>
+        <label>Message</label>
+        <textarea rows="4" name="message" required></textarea>
 
-      <button type="submit">Send Message</button>
-    </form>
+        <button type="submit">Send Message</button>
+      </form>
+
   </section>
+
+  <script>
+    const form = document.querySelector(".contact-form");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault(); // ⛔ stop redirect
+
+      const data = new FormData(form);
+
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { "Accept": "application/json" }
+      });
+
+      if (res.ok) {
+        alert("Message sent successfully ✨");
+        form.reset();
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    });
+    </script>
+
 </body>
 </html>

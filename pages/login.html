@@ -110,7 +110,7 @@
   <div class="form-side">
     <div class="login-box">
       <h2>Welcome Back</h2>
-      <form>
+      <form id="loginForm">
         <div class="form-group">
           <label for="email">Email Address</label>
           <input type="email" id="email" placeholder="Enter your email" required />
@@ -126,5 +126,25 @@
       </p>
     </div>
   </div>
+
+    <script>
+
+
+      document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // stop default submit
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        if (email === "admin@mail.com" && password === "admin123") {
+          // redirect to admin dashboard
+          localStorage.setItem("isAdminLoggedIn", "true");
+          window.location.href = "admdash.html";
+        } else {
+          alert("Invalid username or password");
+        }
+      });
+    </script>
+
 </body>
 </html>

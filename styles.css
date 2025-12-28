@@ -41,15 +41,22 @@ section {
   scroll-snap-align: start;
 }
 
+/* Only landing stays full screen */
+.landing{
+  height: 100vh;
+}
+
+/* content sections grow naturally */
 .about,
 .rooms-preview,
 .amenities,
-.contact-preview {
-    height: 100vh;
-  /* scroll-snap-align: start; */
+.contact-preview{
+  min-height: 100vh;
+  height: auto;
   padding-top: 80px;
   box-sizing: border-box;
 }
+
 
 body {
     padding: 0;
@@ -417,3 +424,190 @@ nav {
   margin: 0;
 }
 
+/* ---------- Tablets (<= 992px) ---------- */
+@media (max-width: 992px) {
+
+  nav {
+    padding: 0.8rem 1.5rem;
+  }
+
+  .landing-text {
+    font-size: 3rem;
+  }
+
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-text {
+    padding: 2rem 8%;
+  }
+
+  .about-image {
+    width: 100%;
+    height: 45vh;
+    justify-content: center;
+  }
+
+  .about-image img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .gallery {
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .room-cards {
+    gap: 1rem;
+  }
+}
+
+
+/* HAMBURGER DEFAULT HIDDEN */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: white;
+}
+
+/* ----------- Mobile Nav ----------- */
+@media (max-width: 768px) {
+
+
+  /* stop forcing tall sections */
+  .about,
+  .rooms-preview,
+  .amenities,
+  .contact-preview{
+    min-height: auto;
+    height: auto;
+    padding-top: 70px;
+  }
+
+  /* remove scroll snapping completely */
+  html, body{
+    scroll-snap-type:none;
+  }
+
+  .rooms-preview{
+    padding-bottom: 3rem;
+  }
+
+  .amenities{
+    padding-bottom: 3rem;
+  }
+
+
+  nav {
+    padding: 0.7rem 1.2rem;
+  }
+
+  /* show hamburger */
+  .hamburger {
+    display: block;
+  }
+
+  /* hide desktop menu initially */
+  .nav-links {
+    position: fixed;
+    top: 60px;
+    right: -100%;
+    width: 60%;
+    height: 100vh;
+    background-color: #F3E9DA;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding-top: 2rem;
+    transition: right 0.3s ease;
+  }
+
+  /* open state */
+  .nav-links.nav-open {
+    right: 0;
+  }
+
+  .login-btn {
+    display: none;
+  }
+
+  /* ----- HERO TEXT FIX ----- */
+  .landing-text {
+    font-size: 1.9rem;
+    flex-direction: column;
+    line-height: 0rem;
+  
+  }
+
+  .landing-text-1{
+      color: #232222;
+  }
+
+  .landing-text-1,
+  .landing-text-2 {
+    text-align: center;
+  }
+
+  .landing-sub {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  /* image covers nicely */
+  .landing {
+    background-position: center;
+  }
+
+  /* disable snap on tiny screens */
+  html, body {
+    scroll-snap-type: none;
+  }
+
+  /* about section stacks */
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-image {
+    display: none;
+    width: 100%;
+    height: 40vh;
+  }
+
+  .about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery {
+    justify-content: center;
+  }
+
+  /* cards full width */
+  .room-card {
+    width: 100%;
+  }
+
+  .amenities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-preview {
+    height: auto;
+    padding-top: 6rem;
+  }
+
+  .contact-btn{
+    margin: 2rem;
+  }
+
+  .contact-details{
+    gap: 0.2rem;
+  }
+
+}

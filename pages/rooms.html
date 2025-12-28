@@ -243,11 +243,150 @@
       opacity: 1;
     }
 
-    @media (max-width: 600px) {
-      .modal-body {
-        padding: 1rem;
+    .hamburger{
+      display:none;
+      font-size:2rem;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    /* ---------- TABLETS (≤ 992px) ---------- */
+    @media (max-width: 992px){
+
+      nav{
+        padding: 0.8rem 1.5rem;
+      }
+
+      .rooms-section{
+        padding: 6rem 6% 3rem;
+      }
+
+      .rooms-section h1{
+        font-size: 2.4rem;
+      }
+
+      .room-card img{
+        height: 200px;
+      }
+
+      .modal-content{
+        width: 90%;
       }
     }
+
+
+    /* ---------- PHONES (≤ 768px) ---------- */
+    @media (max-width: 768px){
+      .hamburger{
+        display:block;
+        color: var(--text-color);
+        z-index: 1001;
+      }
+
+      .nav-links{
+        position:fixed;
+        top:0;
+        right:-100%;
+        width:70%;
+        height:100vh;
+        background:#F3E9DA;
+        flex-direction:column;
+        justify-content:flex-start;
+        padding-top:5rem;
+        gap:2rem;
+        transition: right .35s ease;
+        z-index:1000;
+      }
+
+      .nav-links a{
+        font-size:1.05rem;
+      }
+
+      /* show panel */
+      .nav-links.nav-open{
+        right:0;
+      }
+
+      /* hide desktop login button on mobile */
+      .login-btn{
+        display:none;
+      }
+
+      /* avoid navbar covering content */
+      .rooms-section{
+        padding: 6.5rem 1.2rem 3rem;
+      }
+
+      /* grid -> single column */
+      .rooms-grid{
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+
+      /* card spacing */
+      .room-card-content{
+        padding: 0.5rem 0.2rem 0.8rem;
+      }
+
+      .room-card img{
+        height: 190px;
+      }
+
+      .rooms-section h1{
+        font-size: 2rem;
+      }
+
+      /* modal full-screen feel */
+      .modal-content{
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal-header img{
+        height: 200px;
+      }
+
+      .gallery{
+        justify-content: center;
+      }
+
+      .gallery img{
+        width: 28%;
+        height: 70px;
+      }
+    }
+
+
+    /* ---------- SMALL PHONES (≤ 480px) ---------- */
+    @media (max-width: 480px){
+
+      .rooms-section h1{
+        font-size: 1.7rem;
+      }
+
+      .room-card img{
+        height: 170px;
+      }
+
+      .modal-header img{
+        height: 170px;
+      }
+
+      .modal-body{
+        padding: 1rem 1rem;
+      }
+
+      .gallery img{
+        width: 30%;
+        height: 65px;
+      }
+
+      .view-btn{
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -255,14 +394,19 @@
     <div class="logo">
       <a href="../index.html" class="logo-text">staywise.</a>
     </div>
-    <ul class="nav-links">
+
+    <div class="hamburger" id="hamburger">☰</div>
+
+    <ul class="nav-links" id="navLinks">
       <li><a href="../index.html">Home</a></li>
       <li><a href="rooms.html">Rooms</a></li>
-      <li><a href="booking.html" style="color: var(--accent-dark)">Booking</a></li>
+      <li><a href="booking.html">Booking</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
+
     <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
   </nav>
+
 
   <section class="rooms-section">
     <h1>Our Rooms</h1>
@@ -338,7 +482,12 @@
     const modalGallery = document.getElementById("modalGallery");
 
     const viewButtons = document.querySelectorAll(".view-btn");
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
 
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("nav-open");
+    });
     viewButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         modal.style.display = "flex";

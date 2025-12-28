@@ -9,19 +9,26 @@
 </head>
 <body>
     <nav>
-        <div class="logo">
-            <a href="" class="logo-text">staywise.</a>
-        </div>
-        <ul class="nav-links" id="navLinks">
+      <div class="logo">
+        <a href="" class="logo-text">staywise.</a>
+      </div>
+
+      <div class="hamburger" id="hamburger">
+        ☰
+      </div>
+
+      <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="pages/rooms.html">Rooms</a></li>
         <li><a href="pages/booking.html">Booking</a></li>
         <li><a href="pages/contact.html">Contact</a></li>
-        </ul>
-        <button class="login-btn">
-          <a href="pages/login.html">Login</a>
-        </button>
+      </ul>
+
+      <button class="login-btn">
+        <a href="pages/login.html">Login</a>
+      </button>
     </nav>
+
   <main>
     <section class="landing">
         <div class="landing-text">
@@ -131,7 +138,12 @@
   <script>
   const logoText = document.querySelector('.logo-text');
   const loginBtn = document.querySelector('.login-btn');
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("navLinks");
 
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("nav-open");
+  });
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const landing = document.querySelector('.landing');
@@ -139,7 +151,16 @@
 
     const landingBottom = landing.offsetTop + landing.offsetHeight;
     const contactTop = contact.offsetTop;
+    function isMobile(){
+        return window.innerWidth <= 768;
+      }
 
+      if(isMobile()){
+        const heading = document.querySelector(".landing-text-1");
+        const heading2 = document.querySelector(".landing-text-2");
+        heading2.textContent = "Thoughtful comfort.";
+        heading.textContent = "Timeless stays.";
+      }
     if (scrollY > landingBottom - 100 && scrollY < contactTop - 100) {
       // sections 2–4
       logoText.classList.add('dark-logo');
