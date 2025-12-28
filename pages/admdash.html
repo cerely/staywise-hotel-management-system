@@ -337,11 +337,11 @@
     localStorage.removeItem("isAdminLoggedIn");
 
     // go back to login page
-    window.location.href = "login.html";
+    window.location.href = "index.html";
     });
       if (localStorage.getItem("isAdminLoggedIn") !== "true") {
     // not logged in — block access
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   }
     sendNotificationBtn.addEventListener('click', e => {
       e.preventDefault();
